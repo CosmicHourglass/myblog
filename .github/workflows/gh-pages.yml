@@ -3,7 +3,7 @@ name: Deploy Hugo site to GitHub Pages
 on:
   push:
     branches:
-      - main  # 监听 main 分支的推送事件
+      - main # 监听 main 分支的推送事件
 
 jobs:
   build:
@@ -11,21 +11,22 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: 'latest'
+          hugo-version: "latest"
           extended: true
 
-      - name: Build Hugo site
-        run: hugo --minify
+      - name: Build Web
+        run: hugo -D
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy Web
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.TOKEN }}
           publish_dir: ./public
           publish_branch: main
-          publish_repo: CosmicHourglass/CosmicHourglass.github.io
+          EXTERNAL_REPOSITORY: CosmicHourglass/CosmicHourglass.github.io
+          commit_message: auto deploy
